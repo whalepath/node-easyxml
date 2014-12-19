@@ -31,7 +31,7 @@ bunch of sub elements with the singular version of the name. This library
 allows for all of that. Can be configured globally as well as on a per
 usage basis.
 
-## Example
+## Example 1
 
 Input Object:
 
@@ -49,7 +49,12 @@ Input Object:
         blah: 'http://www.google.com',
         when: new Date(),
         boolz: true,
-        nullz: null
+        nullz: null,
+        undef: undefined,
+        undefs: [
+            null,
+            undefined
+        ]
     }
 
 Example Config:
@@ -60,7 +65,8 @@ Example Config:
         rootElement: 'response',
         dateFormat: 'ISO', // JS, SQL
         indent: 2,
-        manifest: true
+        manifest: true,
+        filterNulls: false
     }
 
 Output XML:
@@ -82,8 +88,76 @@ Output XML:
       <when>2012-09-25T18:47:39.485Z</when>
       <boolz>true</boolz>
       <nullz />
+      <undef />
+      <undefs>
+          <undef />
+          <undef />
+      </undefs>
     </response>
 
+
+## Example 2
+
+Input Object:
+
+    {
+        items: [{
+            name: 'one',
+            _id: 1
+        }, {
+            name: 'two',
+            _id: 2
+        }, {
+            name: 'three',
+            _id: 3
+        }],
+        blah: 'http://www.google.com',
+        when: new Date(),
+        boolz: true,
+        nullz: null,
+        undef: undefined,
+        undefs: [
+            null,
+            undefined
+        ]
+    }
+
+Example Config:
+
+    {
+        singularizeChildren: true,
+        underscoreAttributes: true,
+        rootElement: 'response',
+        dateFormat: 'ISO', // JS, SQL
+        indent: 2,
+        manifest: true,
+        filterNulls: true
+    }
+
+Output XML:
+
+    <?xml version='1.0' encoding='utf-8'?>
+    <response>
+      <items>
+        <item id="1">
+          <name>one</name>
+        </item>
+        <item id="2">
+          <name>two</name>
+        </item>
+        <item id="3">
+          <name>three</name>
+        </item>
+      </items>
+      <blah>http://www.google.com</blah>
+      <when>2012-09-25T18:47:39.485Z</when>
+      <boolz>true</boolz>
+      <undefs />
+    </response>
+
+## License
+
+This project is licensed under the MIT license.
 ## License
 
 This project is licensed under the MIT license.
