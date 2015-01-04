@@ -2,6 +2,7 @@
     <many>
         <many>One</many>
         <many>Two</many>
+        <many />
     </many>
     <single>
         <single>JustMe</single>
@@ -14,6 +15,13 @@
             <many>
                 <two id="2">Dos</two>
             </many>
+            <many>
+                <three id="3" />
+            </many>
+            <many>
+                <four />
+            </many>
+            <many />
         </many>
         <single>
             <single>

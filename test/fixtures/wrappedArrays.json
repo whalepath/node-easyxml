@@ -1,7 +1,8 @@
 {
     "many": [
         "One",
-        "Two"
+        "Two",
+        null
         ],
     "single": [
         "JustMe"
@@ -9,9 +10,12 @@
     "deeper": {
         "many": [
             {"one":{"_id":1, "_":"Uno"}},
-            {"two":{"_id":2, "_":"Dos"}}
+            {"two":{"_id":2, "_":"Dos"}},
+            {"three":{"_id":3, "_":null}},
+            {"four": null},
+            null
         ],
-            "single": [
+        "single": [
             {"three":{"_id":3, "_":"Tres"}}
         ]
     }

@@ -74,7 +74,7 @@ var EasyXml = function() {
     };
 
     var isFilterNulls = function(child) {
-        return self.config.filterNulls === true;
+        return child == null && self.config.filterNulls === true;
     };
     /**
      * Recursive, Private
@@ -101,17 +101,14 @@ var EasyXml = function() {
                 var child = parentObjectNode[key];
                 var el = null;
 
-                if ( child == null && isFilterNulls()) {
+                if ( isFilterNulls(child)) {
                     // no element if we are skipping nulls and undefined
                     continue;
                 }
                 if (!isAttribute(self))
                     el = subElement(parentXmlNode, key);
 
-                if (child == null) {
-                    // allow for both null child and undefined child
-                    el.text = ""
-                } else if (!self.config.singularizeChildren && typeof parentXmlNode === 'object' && typeof child === 'object') {
+                if (!self.config.singularizeChildren && typeof parentXmlNode === 'object' && typeof child === 'object') {
                     for (var key in child) {
                         if (isChildKeyParsed(child[key])) {
                             parseChildElement(el, child[key]);
@@ -121,7 +118,7 @@ var EasyXml = function() {
                         }
                     }
                 } else if (isAttribute(self)) {
-                    if (typeof child === 'string' || typeof child === 'number') {
+                    if (child == null || typeof child === 'string' || typeof child === 'number') {
                         if(key === self.config.underscoreChar)
                           parentXmlNode.text=child;
                         else
@@ -129,6 +126,9 @@ var EasyXml = function() {
                     } else {
                         throw new Error(key + "contained non_string_attribute");
                     }
+                } else if (child == null) {
+                    // allow for both null child and undefined child
+                    el.text = ""
                 } else if (typeof child === 'object' && child.constructor && child.constructor.name && child.constructor.name === 'Date') {
                     // Date
                     if (self.config.dateFormat === 'ISO') {
@@ -155,7 +155,7 @@ var EasyXml = function() {
                     var subElementName = inflect.singularize(key);
 
                     for (var key2 in child) {
-                        if ( child[key2] == null && isFilterNulls()) {
+                        if ( isFilterNulls(child[key2])) {
                             continue;
                         }
                         // if unwrapped arrays, make new subelements on the parent.
